@@ -29,7 +29,11 @@ int hybrid_lock_lock(struct hybrid_lock *lock)     //락을 점유하는 함수
     //clock_t end= CLOCKS_PER_SEC;
     while(!(end2.tv_usec > start2.tv_usec && start2.tv_sec < end2.tv_sec)){
         if(pthread_mutex_trylock(&lock-> mLock) == 0){        //락이 획득됐을때.
-            return 0;
+            pthread_mutex_unlock(&lock-> mLock);
+            usleep(100);
+            if(pthread_mutex_trylock(&lock-> mLock) == 0){
+                return 0;
+            }
         }
         gettimeofday(&end2,NULL);
     }

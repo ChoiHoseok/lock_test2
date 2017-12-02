@@ -3,6 +3,7 @@
 #include <time.h>
 #include <pthread.h>
 #include <sys/time.h>
+#include <unistd.h>
 
 struct hybrid_lock {
     pthread_mutex_t mLock;
