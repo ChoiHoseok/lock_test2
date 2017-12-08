@@ -21,24 +21,28 @@ int hybrid_lock_destroy(struct hybrid_lock *lock)      //락을 사용이 끝났
 
 int hybrid_lock_lock(struct hybrid_lock *lock)     //락을 점유하는 함수
 {
-    printf("lock\n");
-    struct timeval start2, end2;
-    gettimeofday(&start2,NULL);
-    gettimeofday(&end2, NULL);
-    //clock_t start=clock();
-    //clock_t end= CLOCKS_PER_SEC;
-    while(!(end2.tv_usec > start2.tv_usec && start2.tv_sec < end2.tv_sec)){
-        if(pthread_mutex_trylock(&lock-> mLock) == 0){        //락이 획득됐을때.
-            pthread_mutex_unlock(&lock-> mLock);
-            usleep(100);
-            if(pthread_mutex_trylock(&lock-> mLock) == 0){
-                return 0;
-            }
+    struct timeval start,end;
+    long a = 0;
+    gettimeofday(&start,NULL);
+    while(1){
+        if(pthread_mutex_trylock(&lock-> mLock) == 0){
+            gettimeofday(&end,NULL);
+            //printf("trylock catch!! %ld:%ld\n",end.tv_sec - start.tv_sec, end.tv_usec - start.tv_usec);
+            return 0;
         }
-        gettimeofday(&end2,NULL);
+        if(a > 10000000){
+            gettimeofday(&end,NULL);
+            //printf("%ld:%ld\n",end.tv_sec - start.tv_sec, end.tv_usec - start.tv_usec);
+            if(end.tv_sec > start.tv_sec && end.tv_usec > start.tv_usec){
+                //printf("%ld:%ld\n",end.tv_sec - start.tv_sec, end.tv_usec - start.tv_usec);
+                break;
+            }
+            continue;
+        }
+        a++;
     }
-
-    printf("%ld:%ld\n",end2.tv_sec - start2.tv_sec, end2.tv_usec - start2.tv_usec);
+    //gettimeofday(&end,NULL);
+    //printf("%ld:%ld\n",end.tv_sec - start.tv_sec, end.tv_usec - start.tv_usec);
     //락이 1초동안 획득 되지 못했을때 mutex락으로 전환.
     pthread_mutex_lock(&lock->mLock);
     return 0;
@@ -50,5 +54,6 @@ int hybrid_lock_unlock(struct hybrid_lock *lock)       // 락을 해제하는 �
         printf("unlock error\n");
         return -1;
     }
+    usleep(10);
     return 0;
 }
