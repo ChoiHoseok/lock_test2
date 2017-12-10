@@ -8,7 +8,6 @@
 struct hybrid_lock {
 	struct {
     	pthread_mutex_t mLock;
-    	long g_count;
     };
     struct{
     	pthread_mutex_t pLock;

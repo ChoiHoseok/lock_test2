@@ -10,8 +10,8 @@ LIBS=lib/
 # OBJS:=$(SRCS:.c=.o)
 
 # main source file
-TARGET_SRC:=$(SRCDIR)test1.c
-TARGET_OBJ:=$(SRCDIR)test1.o
+TARGET_SRC:=$(SRCDIR)test2.c
+TARGET_OBJ:=$(SRCDIR)test2.o
 
 # Include more files if you write another source file.
 SRCS_FOR_LIB:=$(SRCDIR)hybrid_lock.c

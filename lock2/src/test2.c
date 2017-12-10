@@ -7,7 +7,7 @@ struct hybrid_lock g_mutex;
 //pthread_mutex_t mlock;
 
 
-//long g_count;
+long g_count;
 
 void *thread_func(void *arg)
 {
@@ -31,9 +31,9 @@ void *thread_func(void *arg)
 		for (j = 0; j<100000; j++)
 			for (k = 0; k<3000; k++)
 				l += j * k;
-		g_mutex.g_count++;
+		//g_mutex.g_count++;
 		//printf("%d\n",setset->tid);
-		//g_count++;
+		g_count++;
 		//pthread_mutex_unlock(&mlock);
 		//pthread_spin_unlock(&slock);
 		hybrid_lock_unlock(&g_mutex);
@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
 	 * Print the value of g_count.
 	 * It must be (thread_count * value)
 	 */ 
-	printf("value: %ld\n", g_mutex.g_count);
-	//printf("value: %ld\n", g_count);
+	//printf("value: %ld\n", g_mutex.g_count);
+	printf("value: %ld\n", g_count);
 	free(tid);
 }

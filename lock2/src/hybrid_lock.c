@@ -2,7 +2,6 @@
 
 int hybrid_lock_init(struct hybrid_lock *lock)     //락을 초기화하는 함수
 {
-    lock->g_count = 0;
     if(pthread_mutex_init(&lock->mLock, NULL)!=0){
         printf("init error\n");
         return -1;
@@ -20,14 +19,20 @@ int hybrid_lock_destroy(struct hybrid_lock *lock)      //락을 사용이 끝났
         printf("destroy error\n");
         return -1;
     }
+    if(pthread_mutex_destroy(&lock->pLock)!=0){
+        printf("destroy error\n");
+        return -1;
+    }
     return 0;
 }
 
 int hybrid_lock_lock(struct hybrid_lock *lock)     //락을 점유하는 함수
-{
+{   
     struct timeval start,end;
     long a = 0;
+    
     gettimeofday(&start,NULL);
+    
     while(1){
         if(pthread_mutex_trylock(&lock-> pLock) == 0){
             if(pthread_mutex_trylock(&lock-> mLock) == 0){
@@ -36,21 +41,16 @@ int hybrid_lock_lock(struct hybrid_lock *lock)     //락을 점유하는 함수
             }else{
                 pthread_mutex_unlock(&lock-> pLock);
             }
-            //gettimeofday(&end,NULL);
-            //printf("%ld:%ld\n",end.tv_sec - start.tv_sec, end.tv_usec - start.tv_usec);
         }
-        if(a > 10000000){
+        if(a > 18000000){
             gettimeofday(&end,NULL);
-            printf("%ld:%ld\n",end.tv_sec - start.tv_sec, end.tv_usec - start.tv_usec);
             if(end.tv_sec > start.tv_sec && end.tv_usec > start.tv_usec){
-                printf("%ld:%ld\n",end.tv_sec - start.tv_sec, end.tv_usec - start.tv_usec);
                 break;
             }
-            //continue;
+            continue;
         }
         a++;
-    }
-    printf("%ld\n",a);
+    } 
     
     pthread_mutex_lock(&lock->pLock);
     pthread_mutex_lock(&lock->mLock);
