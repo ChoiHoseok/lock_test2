@@ -5,11 +5,14 @@
 struct hybrid_lock g_mutex;
 //pthread_spinlock_t slock;
 //pthread_mutex_t mlock;
+
+
 //long g_count;
 
 void *thread_func(void *arg)
 {
-	long i, j, k, count = (long)arg;
+	//sets* setset = (sets*)arg;
+	long i, j, k, count =(long)arg;
 	long long l;
 
 	/*
@@ -29,6 +32,7 @@ void *thread_func(void *arg)
 			for (k = 0; k<3000; k++)
 				l += j * k;
 		g_mutex.g_count++;
+		//printf("%d\n",setset->tid);
 		//g_count++;
 		//pthread_mutex_unlock(&mlock);
 		//pthread_spin_unlock(&slock);
@@ -42,7 +46,7 @@ int main(int argc, char *argv[])
 	pthread_t *tid;
 	long i, thread_count, value;
 	int rc;
-	
+	//sets setset[4];
 	hybrid_lock_init(&g_mutex);
 	//pthread_spin_init(&slock, PTHREAD_PROCESS_PRIVATE);
 	//pthread_mutex_init(&mlock,NULL);
@@ -65,7 +69,6 @@ int main(int argc, char *argv[])
 	 */
 	thread_count = atol(argv[1]);
 	value = atol(argv[2]);
-
 	/*
 	 * Create array to get tids of each threads that will
 	 * be created by this thread.
@@ -82,6 +85,8 @@ int main(int argc, char *argv[])
 	 * value times.
 	 */
 	for (i = 0; i<thread_count; i++) {
+		//setset[i].count = value;
+		//setset[i].tid = i;
 		rc = pthread_create(&tid[i], NULL, thread_func, (void*)value);
 		if (rc) {
 			fprintf(stderr, "pthread_create() error\n");

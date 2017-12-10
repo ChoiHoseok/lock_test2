@@ -6,8 +6,13 @@
 #include <unistd.h>
 
 struct hybrid_lock {
-    pthread_mutex_t mLock;
-    long g_count;
+	struct {
+    	pthread_mutex_t mLock;
+    	long g_count;
+    };
+    struct{
+    	pthread_mutex_t pLock;
+    };
 };
 
 int hybrid_lock_init(struct hybrid_lock *lock);

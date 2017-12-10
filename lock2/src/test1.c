@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-struct hybrid_lock_t g_mutex;
+#include "hybrid_lock.h"
+struct hybrid_lock g_mutex;
 //pthread_spinlock_t slock;
 //pthread_mutex_t mlock;
+//long g_count = 0;
 
 void *thread_func(void *arg)
 {
@@ -19,11 +21,12 @@ void *thread_func(void *arg)
 	for (i = 0; i<count; i++) {
 		/************ Critical Section ************/
 		hybrid_lock_lock(&g_mutex);
-		pthread_spin_lock(&slock);
-		pthread_mutex_lock(&mlock);
+		//pthread_spin_lock(&slock);
+		//pthread_mutex_lock(&mlock);
 		g_mutex.g_count++;
-		pthread_mutex_unlock(&mlock);
-		pthread_spin_unlock(&slock);
+		//g_count++;
+		//pthread_mutex_unlock(&mlock);
+		//pthread_spin_unlock(&slock);
 		hybrid_lock_unlock(&g_mutex);
 		/******************************************/
 	}
@@ -36,8 +39,8 @@ int main(int argc, char *argv[])
 	int rc;
 	
 	hybrid_lock_init(&g_mutex);
-	pthread_spin_init(&slock, NULL);
-	pthread_mutex_init(&mlock,NULL);
+	//pthread_spin_init(&slock, NULL);
+	//pthread_mutex_init(&mlock,NULL);
 
 	/*
 	 * Check that the program has three arguments
@@ -79,8 +82,8 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "pthread_create() error\n");
 			free(tid);
 			hybrid_lock_destroy(&g_mutex);
-			pthread_spin_destroy(&slock);
-			pthread_mutex_destroy(&mlock);
+			//pthread_spin_destroy(&slock);
+			//pthread_mutex_destroy(&mlock);
 			exit(0);
 		}
 	}
@@ -94,22 +97,22 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "pthread_join() error\n");
 			free(tid);
 			hybrid_lock_destroy(&g_mutex);
-			pthread_spin_destroy(&slock);
-			pthread_mutex_destroy(&mlock);
+			//pthread_spin_destroy(&slock);
+			//pthread_mutex_destroy(&mlock);
 			exit(0);
 		}
 	}
 
 	hybrid_lock_destroy(&g_mutex);
-	pthread_spin_destroy(&slock);
-	pthread_mutex_destroy(&mlock);
+	//pthread_spin_destroy(&slock);
+	//pthread_mutex_destroy(&mlock);
 
 
 	/*
 	 * Print the value of g_count.
 	 * It must be (thread_count * value)
 	 */ 
-	printf("value: %ld\n", g_count);
-
+	printf("value: %ld\n", g_mutex.g_count);
+	//printf("value: %ld\n", g_count);
 	free(tid);
 }
