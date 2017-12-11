@@ -30,11 +30,13 @@ int hybrid_lock_lock(struct hybrid_lock *lock)     //락을 점유하는 함수
 {   
     struct timeval start,end;
     long a = 0;
+	long b = 0;
     
     gettimeofday(&start,NULL);
     
     while(1){
         if(pthread_mutex_trylock(&lock-> pLock) == 0){
+			a = a + 80;
             if(pthread_mutex_trylock(&lock-> mLock) == 0){
                 pthread_mutex_unlock(&lock-> pLock);
                 return 0;
@@ -42,16 +44,21 @@ int hybrid_lock_lock(struct hybrid_lock *lock)     //락을 점유하는 함수
                 pthread_mutex_unlock(&lock-> pLock);
             }
         }
-        if(a > 18000000){
+        if(a > 57800000){
+			b++;
             gettimeofday(&end,NULL);
-            if(end.tv_sec > start.tv_sec && end.tv_usec > start.tv_usec){
+            if(end.tv_sec > start.tv_sec && end.tv_usec >= start.tv_usec){
                 break;
-            }
+            }else if(end.tv_sec - 2 == start.tv_sec){
+				break;
+			}
             continue;
         }
         a++;
-    } 
-    
+    }
+	gettimeofday(&end,NULL);
+    printf("time: %ld:%ld\n", end.tv_sec - start.tv_sec,end.tv_usec - start.tv_usec);
+	printf("number of gettimeofday: %ld\n\n",b);
     pthread_mutex_lock(&lock->pLock);
     pthread_mutex_lock(&lock->mLock);
     pthread_mutex_unlock(&lock->pLock);

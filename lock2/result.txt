@@ -1,0 +1,118 @@
+time: 1:0
+number of gettimeofday: 20070
+
+time: 1:0
+number of gettimeofday: 260354
+
+time: 1:34124
+number of gettimeofday: 1
+
+time: 1:0
+number of gettimeofday: 134260
+
+time: 1:2822
+number of gettimeofday: 1
+
+time: 1:0
+number of gettimeofday: 188498
+
+time: 1:5927
+number of gettimeofday: 1
+
+time: 1:0
+number of gettimeofday: 190147
+
+time: 1:42
+number of gettimeofday: 1
+
+time: 1:0
+number of gettimeofday: 83739
+
+time: 1:1244
+number of gettimeofday: 1
+
+time: 1:670
+number of gettimeofday: 1
+
+time: 1:10295
+number of gettimeofday: 1
+
+time: 1:0
+number of gettimeofday: 213522
+
+time: 1:5306
+number of gettimeofday: 1
+
+time: 1:0
+number of gettimeofday: 165727
+
+time: 1:24041
+number of gettimeofday: 1
+
+time: 1:0
+number of gettimeofday: 122965
+
+time: 1:4354
+number of gettimeofday: 1
+
+time: 1:0
+number of gettimeofday: 190389
+
+time: 1:23651
+number of gettimeofday: 1
+
+time: 1:0
+number of gettimeofday: 202961
+
+time: 1:0
+number of gettimeofday: 135052
+
+time: 1:0
+number of gettimeofday: 202947
+
+time: 1:0
+number of gettimeofday: 180782
+
+time: 1:0
+number of gettimeofday: 202127
+
+time: 1:6561
+number of gettimeofday: 1
+
+time: 1:0
+number of gettimeofday: 199393
+
+time: 1:0
+number of gettimeofday: 159994
+
+time: 1:0
+number of gettimeofday: 203590
+
+time: 1:4315
+number of gettimeofday: 1
+
+time: 1:644
+number of gettimeofday: 1
+
+time: 1:0
+number of gettimeofday: 111675
+
+time: 1:0
+number of gettimeofday: 193766
+
+time: 1:38108
+number of gettimeofday: 1
+
+time: 1:0
+number of gettimeofday: 117016
+
+time: 1:2471
+number of gettimeofday: 1
+
+time: 1:2925
+number of gettimeofday: 1
+
+time: 1:0
+number of gettimeofday: 131443
+
+value: 40
