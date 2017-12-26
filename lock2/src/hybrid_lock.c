@@ -1,5 +1,8 @@
 #include "hybrid_lock.h"
 
+#define LOOP_NUM 55000000
+#define A_BONUS 50
+
 int hybrid_lock_init(struct hybrid_lock *lock)     //락을 초기화하는 함수
 {
     if(pthread_mutex_init(&lock->mLock, NULL)!=0){
@@ -36,7 +39,7 @@ int hybrid_lock_lock(struct hybrid_lock *lock)     //락을 점유하는 함수
     
     while(1){
         if(pthread_mutex_trylock(&lock-> pLock) == 0){
-			a = a + 80;
+			a = a + A_BONUS;
             if(pthread_mutex_trylock(&lock-> mLock) == 0){
                 pthread_mutex_unlock(&lock-> pLock);
                 return 0;
@@ -44,7 +47,7 @@ int hybrid_lock_lock(struct hybrid_lock *lock)     //락을 점유하는 함수
                 pthread_mutex_unlock(&lock-> pLock);
             }
         }
-        if(a > 57800000){
+        if(a > LOOP_NUM){
 			b++;
             gettimeofday(&end,NULL);
             if(end.tv_sec > start.tv_sec && end.tv_usec >= start.tv_usec){
