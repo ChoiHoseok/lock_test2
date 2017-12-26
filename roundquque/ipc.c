@@ -166,6 +166,8 @@ void * client3(void * arg){
 void add_message(int n, mymsg msg){
 	msg.mtype = n;
 	msgs->msgs[msgs->msg_end] = msg;
+	printf("%d: [%d] ",msgs->msg_end, n);
+	printf("%s\n",msg.mtext);
 	if(msgs->msg_end == MAX - 1){
 		msgs->msg_end = 0;
 	}else{
@@ -178,7 +180,6 @@ void add_message(int n, mymsg msg){
 			msgs->msg_start++;
 		}
 	}
-	printf("[%d] ", n);
-	printf("%s\n",msg.mtext);
+	
 	//printf("%d\n",msgs->msg_num);
 }
